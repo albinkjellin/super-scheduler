@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd 
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd 
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd ">
+    <data-mapper:config name="ScheduleRequest2PanelRequest" transformationGraphPath="schedulerequest2panelrequest.grf" doc:name="ScheduleRequest2PanelRequest"/>
+    <data-mapper:config name="RequestData2PanelDataExtractRequest" transformationGraphPath="requestdata2paneldataextractrequest.grf" doc:name="RequestData2PanelDataExtractRequest"/>
+    <data-mapper:config name="Schedule2Panel" transformationGraphPath="schedule2panel.grf" doc:name="Schedule2Panel"/>
+    <spring:beans>
+        <spring:bean id="objectstore" name="objectstore" class="org.mule.util.store.SimpleMemoryObjectStore"/>
+    </spring:beans>
+    <flow name="Hackathon3.3Flow1" doc:name="Hackathon3.3Flow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8881" path="schedule" doc:name="HTTP"/>
+        <cxf:jaxws-service serviceClass="org.mule.hackathon2012.scheduler.ISchedulerRequest" validationEnabled="true" doc:name="SOAP">
+            <cxf:jaxb-databinding/>
+        </cxf:jaxws-service>
+        <foreach collection="payload[1].RequestDataList.RequestData" doc:name="Foreach">
+            <data-mapper:transform config-ref="Schedule2Panel" doc:name="Data-mapper"/>
+            <scripting:component doc:name="Groovy">
+                <scripting:script engine="Groovy">
+                    <scripting:text><![CDATA[import org.mule.hackathon2012.panel.request.PanelDataExtractRequest;
+import org.mule.hackathon2012.panel.request.PanelDataExtractRequest.RequestDataList;
+import org.mule.hackathon2012.panel.request.RequestData;
+
+def panelExtractRequest = new PanelDataExtractRequest()
+def dummyList = new PanelDataExtractRequest.RequestDataList()
+dummyList.getRequestData().add(payload)
+panelExtractRequest.setRequestDataList(dummyList)
+panelExtractRequest.setInterfaceId(rootMessage.payload[1].interfaceId)
+
+return [rootMessage.payload[0], panelExtractRequest] as Object[]]]></scripting:text>
+                </scripting:script>
+            </scripting:component>
+            <cxf:jaxws-client operation="PanelDataExtractRequest" clientClass="org.mule.hackathon2012.panel.request.DataExtractService" port="DataExtractServicePort" enableMuleSoapHeaders="true" doc:name="SOAP"/>
+            <until-successful objectStore-ref="objectstore" maxRetries="2" secondsBetweenRetries="60" doc:name="Until Successful">
+                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8882" path="panelrequest" doc:name="HTTP"/>
+            </until-successful>
+        </foreach>
+    </flow>
+    <flow name="SimulateEndpoint" doc:name="SimulateEndpoint">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8882" path="panelrequest" doc:name="HTTP"/>
+        <object-to-string-transformer doc:name="Object to String"/>
+        <mulexml:xml-prettyprinter-transformer></mulexml:xml-prettyprinter-transformer>
+        <logger message="************** THIS FINALLY WORKED ************************" level="INFO" doc:name="Logger"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>
