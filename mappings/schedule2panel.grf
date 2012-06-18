@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph author="albinkjellin" created="Sun Jun 17 15:59:53 PDT 2012" guiVersion="3.3.0.M2" id="1339981443151" licenseCode="Unlicensed" licenseType="Unknown" modified="Sun Jun 17 15:59:53 PDT 2012" modifiedBy="albinkjellin" name="Schedule2Panel" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="Metadata1">
+<Record fieldDelimiter="|" name="RequestData" recordDelimiter="&#10;" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/object/accountingItemId" label="accountingItemId" name="accountingItemId" type="string"/>
+<Field __sourcePath="{}/object/endDate/day" label="day" name="day2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/fractionalSecond" label="fractionalSecond" name="fractionalSecond2" type="decimal"/>
+<Field __sourcePath="{}/object/endDate/hour" label="hour" name="hour2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/millisecond" label="millisecond" name="millisecond2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/minute" label="minute" name="minute2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/month" label="month" name="month2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/second" label="second" name="second2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/timezone" label="timezone" name="timezone2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/year" label="year" name="year2" type="integer"/>
+<Field __sourcePath="{}/object/panelLocale" label="panelLocale" name="panelLocale" type="string"/>
+<Field __sourcePath="{}/object/reportDate/day" label="day" name="day3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/fractionalSecond" label="fractionalSecond" name="fractionalSecond3" type="decimal"/>
+<Field __sourcePath="{}/object/reportDate/hour" label="hour" name="hour3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/millisecond" label="millisecond" name="millisecond3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/minute" label="minute" name="minute3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/month" label="month" name="month3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/second" label="second" name="second3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/timezone" label="timezone" name="timezone3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/year" label="year" name="year3" type="integer"/>
+<Field __sourcePath="{}/object/startDate/day" label="day" name="day4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/fractionalSecond" label="fractionalSecond" name="fractionalSecond4" type="decimal"/>
+<Field __sourcePath="{}/object/startDate/hour" label="hour" name="hour4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/millisecond" label="millisecond" name="millisecond4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/minute" label="minute" name="minute4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/month" label="month" name="month4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/second" label="second" name="second4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/timezone" label="timezone" name="timezone4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/year" label="year" name="year4" type="integer"/>
+<Field __sourcePath="{}/object/transactionDetailType" label="transactionDetailType" name="transactionDetailType" type="string"/>
+<Field __sourcePath="{}/object/transactionType" label="transactionType" name="transactionType" type="string"/>
+<Field __sourcePath="{}/object/universalPanelId" label="universalPanelId" name="universalPanelId" type="string"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="Metadata0">
+<Record fieldDelimiter="|" name="RequestData" recordDelimiter="&#10;" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/object/accountingItemId" label="accountingItemId" name="accountingItemId" type="string"/>
+<Field __sourcePath="{}/object/endDate/XMLSchemaType/localPart" label="localPart" name="localPart2" type="string"/>
+<Field __sourcePath="{}/object/endDate/XMLSchemaType/namespaceURI" label="namespaceURI" name="namespaceURI2" type="string"/>
+<Field __sourcePath="{}/object/endDate/XMLSchemaType/prefix" label="prefix" name="prefix2" type="string"/>
+<Field __sourcePath="{}/object/endDate/day" label="day" name="day2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/eon" label="eon" name="eon2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/eonAndYear" label="eonAndYear" name="eonAndYear2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/fractionalSecond" label="fractionalSecond" name="fractionalSecond2" type="decimal"/>
+<Field __sourcePath="{}/object/endDate/hour" label="hour" name="hour2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/millisecond" label="millisecond" name="millisecond2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/minute" label="minute" name="minute2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/month" label="month" name="month2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/second" label="second" name="second2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/timezone" label="timezone" name="timezone2" type="integer"/>
+<Field __sourcePath="{}/object/endDate/valid" label="valid" name="valid2" type="boolean"/>
+<Field __sourcePath="{}/object/endDate/year" label="year" name="year2" type="integer"/>
+<Field __sourcePath="{}/object/locale" label="locale" name="locale" type="string"/>
+<Field __sourcePath="{}/object/panelId" label="panelId" name="panelId" type="string"/>
+<Field __sourcePath="{}/object/reportDate/XMLSchemaType/localPart" label="localPart" name="localPart3" type="string"/>
+<Field __sourcePath="{}/object/reportDate/XMLSchemaType/namespaceURI" label="namespaceURI" name="namespaceURI3" type="string"/>
+<Field __sourcePath="{}/object/reportDate/XMLSchemaType/prefix" label="prefix" name="prefix3" type="string"/>
+<Field __sourcePath="{}/object/reportDate/day" label="day" name="day3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/eon" label="eon" name="eon3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/eonAndYear" label="eonAndYear" name="eonAndYear3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/fractionalSecond" label="fractionalSecond" name="fractionalSecond3" type="decimal"/>
+<Field __sourcePath="{}/object/reportDate/hour" label="hour" name="hour3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/millisecond" label="millisecond" name="millisecond3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/minute" label="minute" name="minute3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/month" label="month" name="month3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/second" label="second" name="second3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/timezone" label="timezone" name="timezone3" type="integer"/>
+<Field __sourcePath="{}/object/reportDate/valid" label="valid" name="valid3" type="boolean"/>
+<Field __sourcePath="{}/object/reportDate/year" label="year" name="year3" type="integer"/>
+<Field __sourcePath="{}/object/startDate/XMLSchemaType/localPart" label="localPart" name="localPart4" type="string"/>
+<Field __sourcePath="{}/object/startDate/XMLSchemaType/namespaceURI" label="namespaceURI" name="namespaceURI4" type="string"/>
+<Field __sourcePath="{}/object/startDate/XMLSchemaType/prefix" label="prefix" name="prefix4" type="string"/>
+<Field __sourcePath="{}/object/startDate/day" label="day" name="day4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/eon" label="eon" name="eon4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/eonAndYear" label="eonAndYear" name="eonAndYear4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/fractionalSecond" label="fractionalSecond" name="fractionalSecond4" type="decimal"/>
+<Field __sourcePath="{}/object/startDate/hour" label="hour" name="hour4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/millisecond" label="millisecond" name="millisecond4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/minute" label="minute" name="minute4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/month" label="month" name="month4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/second" label="second" name="second4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/timezone" label="timezone" name="timezone4" type="integer"/>
+<Field __sourcePath="{}/object/startDate/valid" label="valid" name="valid4" type="boolean"/>
+<Field __sourcePath="{}/object/startDate/year" label="year" name="year4" type="integer"/>
+<Field __sourcePath="{}/object/transactionDetail" label="transactionDetail" name="transactionDetail" type="string"/>
+<Field __sourcePath="{}/object/transactionType" label="transactionType" name="transactionType" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiHeight="0" guiName="JAVA Reader" guiWidth="0" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="accountingItemId" trim="true" xpath="accountingItemId"/>
+  <Mapping cloverField="localPart2" trim="true" xpath="endDate/XMLSchemaType/localPart"/>
+  <Mapping cloverField="namespaceURI2" trim="true" xpath="endDate/XMLSchemaType/namespaceURI"/>
+  <Mapping cloverField="prefix2" trim="true" xpath="endDate/XMLSchemaType/prefix"/>
+  <Mapping cloverField="day2" trim="true" xpath="endDate/day"/>
+  <Mapping cloverField="eon2" trim="true" xpath="endDate/eon"/>
+  <Mapping cloverField="eonAndYear2" trim="true" xpath="endDate/eonAndYear"/>
+  <Mapping cloverField="fractionalSecond2" trim="true" xpath="endDate/fractionalSecond"/>
+  <Mapping cloverField="hour2" trim="true" xpath="endDate/hour"/>
+  <Mapping cloverField="millisecond2" trim="true" xpath="endDate/millisecond"/>
+  <Mapping cloverField="minute2" trim="true" xpath="endDate/minute"/>
+  <Mapping cloverField="month2" trim="true" xpath="endDate/month"/>
+  <Mapping cloverField="second2" trim="true" xpath="endDate/second"/>
+  <Mapping cloverField="timezone2" trim="true" xpath="endDate/timezone"/>
+  <Mapping cloverField="valid2" trim="true" xpath="endDate/valid"/>
+  <Mapping cloverField="year2" trim="true" xpath="endDate/year"/>
+  <Mapping cloverField="locale" trim="true" xpath="locale"/>
+  <Mapping cloverField="panelId" trim="true" xpath="panelId"/>
+  <Mapping cloverField="localPart3" trim="true" xpath="reportDate/XMLSchemaType/localPart"/>
+  <Mapping cloverField="namespaceURI3" trim="true" xpath="reportDate/XMLSchemaType/namespaceURI"/>
+  <Mapping cloverField="prefix3" trim="true" xpath="reportDate/XMLSchemaType/prefix"/>
+  <Mapping cloverField="day3" trim="true" xpath="reportDate/day"/>
+  <Mapping cloverField="eon3" trim="true" xpath="reportDate/eon"/>
+  <Mapping cloverField="eonAndYear3" trim="true" xpath="reportDate/eonAndYear"/>
+  <Mapping cloverField="fractionalSecond3" trim="true" xpath="reportDate/fractionalSecond"/>
+  <Mapping cloverField="hour3" trim="true" xpath="reportDate/hour"/>
+  <Mapping cloverField="millisecond3" trim="true" xpath="reportDate/millisecond"/>
+  <Mapping cloverField="minute3" trim="true" xpath="reportDate/minute"/>
+  <Mapping cloverField="month3" trim="true" xpath="reportDate/month"/>
+  <Mapping cloverField="second3" trim="true" xpath="reportDate/second"/>
+  <Mapping cloverField="timezone3" trim="true" xpath="reportDate/timezone"/>
+  <Mapping cloverField="valid3" trim="true" xpath="reportDate/valid"/>
+  <Mapping cloverField="year3" trim="true" xpath="reportDate/year"/>
+  <Mapping cloverField="localPart4" trim="true" xpath="startDate/XMLSchemaType/localPart"/>
+  <Mapping cloverField="namespaceURI4" trim="true" xpath="startDate/XMLSchemaType/namespaceURI"/>
+  <Mapping cloverField="prefix4" trim="true" xpath="startDate/XMLSchemaType/prefix"/>
+  <Mapping cloverField="day4" trim="true" xpath="startDate/day"/>
+  <Mapping cloverField="eon4" trim="true" xpath="startDate/eon"/>
+  <Mapping cloverField="eonAndYear4" trim="true" xpath="startDate/eonAndYear"/>
+  <Mapping cloverField="fractionalSecond4" trim="true" xpath="startDate/fractionalSecond"/>
+  <Mapping cloverField="hour4" trim="true" xpath="startDate/hour"/>
+  <Mapping cloverField="millisecond4" trim="true" xpath="startDate/millisecond"/>
+  <Mapping cloverField="minute4" trim="true" xpath="startDate/minute"/>
+  <Mapping cloverField="month4" trim="true" xpath="startDate/month"/>
+  <Mapping cloverField="second4" trim="true" xpath="startDate/second"/>
+  <Mapping cloverField="timezone4" trim="true" xpath="startDate/timezone"/>
+  <Mapping cloverField="valid4" trim="true" xpath="startDate/valid"/>
+  <Mapping cloverField="year4" trim="true" xpath="startDate/year"/>
+  <Mapping cloverField="transactionDetail" trim="true" xpath="transactionDetail"/>
+  <Mapping cloverField="transactionType" trim="true" xpath="transactionType"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<schema-object>
+  <typed-object-ref type-ref="org.mule.hackathon2012.scheduler.RequestData"/>
+  <typed-object type="java.math.BigInteger"/>
+  <typed-object type="org.mule.hackathon2012.scheduler.RequestData">
+    <typed-object-ref name="accountingItemId" type-ref="java.lang.String"/>
+    <typed-object-ref name="endDate" type-ref="javax.xml.datatype.XMLGregorianCalendar"/>
+    <typed-object-ref name="locale" type-ref="java.lang.String"/>
+    <typed-object-ref name="panelId" type-ref="java.lang.String"/>
+    <typed-object-ref name="reportDate" type-ref="javax.xml.datatype.XMLGregorianCalendar"/>
+    <typed-object-ref name="startDate" type-ref="javax.xml.datatype.XMLGregorianCalendar"/>
+    <typed-object-ref name="transactionDetail" type-ref="java.lang.String"/>
+    <typed-object-ref name="transactionType" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="int"/>
+  <typed-object type="javax.xml.namespace.QName">
+    <typed-object-ref name="localPart" type-ref="java.lang.String"/>
+    <typed-object-ref name="namespaceURI" type-ref="java.lang.String"/>
+    <typed-object-ref name="prefix" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="javax.xml.datatype.XMLGregorianCalendar">
+    <typed-object-ref name="XMLSchemaType" type-ref="javax.xml.namespace.QName"/>
+    <typed-object-ref name="day" type-ref="int"/>
+    <typed-object-ref name="eon" type-ref="java.math.BigInteger"/>
+    <typed-object-ref name="eonAndYear" type-ref="java.math.BigInteger"/>
+    <typed-object-ref name="fractionalSecond" type-ref="java.math.BigDecimal"/>
+    <typed-object-ref name="hour" type-ref="int"/>
+    <typed-object-ref name="millisecond" type-ref="int"/>
+    <typed-object-ref name="minute" type-ref="int"/>
+    <typed-object-ref name="month" type-ref="int"/>
+    <typed-object-ref name="second" type-ref="int"/>
+    <typed-object-ref name="timezone" type-ref="int"/>
+    <typed-object-ref name="valid" type-ref="boolean"/>
+    <typed-object-ref name="year" type-ref="int"/>
+  </typed-object>
+  <typed-object type="java.math.BigDecimal"/>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="boolean"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" fileURL="dict:outputPayload" guiHeight="0" guiName="JAVA Writer" guiWidth="0" guiX="460" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <accountingItemId>$0.accountingItemId</accountingItemId>
+  <endDate>
+    <day>$0.day2</day>
+    <fractionalSecond>$0.fractionalSecond2</fractionalSecond>
+    <hour>$0.hour2</hour>
+    <millisecond>$0.millisecond2</millisecond>
+    <minute>$0.minute2</minute>
+    <month>$0.month2</month>
+    <second>$0.second2</second>
+    <timezone>$0.timezone2</timezone>
+    <year>$0.year2</year>
+  </endDate>
+  <panelLocale>$0.panelLocale</panelLocale>
+  <reportDate>
+    <day>$0.day3</day>
+    <fractionalSecond>$0.fractionalSecond3</fractionalSecond>
+    <hour>$0.hour3</hour>
+    <millisecond>$0.millisecond3</millisecond>
+    <minute>$0.minute3</minute>
+    <month>$0.month3</month>
+    <second>$0.second3</second>
+    <timezone>$0.timezone3</timezone>
+    <year>$0.year3</year>
+  </reportDate>
+  <startDate>
+    <day>$0.day4</day>
+    <fractionalSecond>$0.fractionalSecond4</fractionalSecond>
+    <hour>$0.hour4</hour>
+    <millisecond>$0.millisecond4</millisecond>
+    <minute>$0.minute4</minute>
+    <month>$0.month4</month>
+    <second>$0.second4</second>
+    <timezone>$0.timezone4</timezone>
+    <year>$0.year4</year>
+  </startDate>
+  <transactionDetailType>$0.transactionDetailType</transactionDetailType>
+  <transactionType>$0.transactionType</transactionType>
+  <universalPanelId>$0.universalPanelId</universalPanelId>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<schema-object>
+  <typed-object-ref type-ref="org.mule.hackathon2012.panel.request.RequestData"/>
+  <typed-object type="int"/>
+  <typed-object type="javax.xml.datatype.XMLGregorianCalendar">
+    <typed-object-ref name="day" type-ref="int"/>
+    <typed-object-ref name="fractionalSecond" type-ref="java.math.BigDecimal"/>
+    <typed-object-ref name="hour" type-ref="int"/>
+    <typed-object-ref name="millisecond" type-ref="int"/>
+    <typed-object-ref name="minute" type-ref="int"/>
+    <typed-object-ref name="month" type-ref="int"/>
+    <typed-object-ref name="second" type-ref="int"/>
+    <typed-object-ref name="timezone" type-ref="int"/>
+    <typed-object-ref name="year" type-ref="int"/>
+  </typed-object>
+  <typed-object type="java.math.BigDecimal"/>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="org.mule.hackathon2012.panel.request.RequestData">
+    <typed-object-ref name="accountingItemId" type-ref="java.lang.String"/>
+    <typed-object-ref name="endDate" type-ref="javax.xml.datatype.XMLGregorianCalendar"/>
+    <typed-object-ref name="panelLocale" type-ref="java.lang.String"/>
+    <typed-object-ref name="reportDate" type-ref="javax.xml.datatype.XMLGregorianCalendar"/>
+    <typed-object-ref name="startDate" type-ref="javax.xml.datatype.XMLGregorianCalendar"/>
+    <typed-object-ref name="transactionDetailType" type-ref="java.lang.String"/>
+    <typed-object-ref name="transactionType" type-ref="java.lang.String"/>
+    <typed-object-ref name="universalPanelId" type-ref="java.lang.String"/>
+  </typed-object>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" guiHeight="0" guiName="object_to_object" guiWidth="0" guiX="240" guiY="20" id="REFORMAT0" type="REFORMAT">
+<attr name="transform"><![CDATA[//#CTL2
+
+// Transforms input record into output record.
+function integer transform() {
+	$out.0.fractionalSecond4 = $in.0.fractionalSecond4;
+	$out.0.millisecond4 = $in.0.millisecond4;
+	$out.0.year4 = $in.0.year4;
+	$out.0.timezone4 = $in.0.timezone4;
+	$out.0.second4 = $in.0.second4;
+	$out.0.month4 = $in.0.month4;
+	$out.0.minute4 = $in.0.minute4;
+	$out.0.hour4 = $in.0.hour4;
+	$out.0.day4 = $in.0.day4;
+	$out.0.transactionDetailType = $in.0.transactionDetail;
+	$out.0.panelLocale = $in.0.locale;
+	$out.0.__id = $in.0.__id;
+	$out.0.accountingItemId = $in.0.accountingItemId;
+	$out.0.transactionType = $in.0.transactionType;
+
+	return ALL;
+}
+
+// Called during component initialization.
+// function boolean init() {}
+
+// Called during each graph run before the transform is executed. May be used to allocate and initialize resources
+// required by the transform. All resources allocated within this method should be released
+// by the postExecute() method.
+// function void preExecute() {}
+
+// Called only if transform() throws an exception.
+// function integer transformOnError(string errorMessage, string stackTrace) {}
+
+// Called during each graph run after the entire transform was executed. Should be used to free any resources
+// allocated within the preExecute() method.
+// function void postExecute() {}
+
+// Called to return a user-defined error message when an error occurs.
+// function string getMessage() {}
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="Metadata0" outPort="Port 0 (out)" toNode="REFORMAT0:0"/>
+<Edge debugMode="true" fromNode="REFORMAT0:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="Metadata1" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+</Phase>
+</Graph>
