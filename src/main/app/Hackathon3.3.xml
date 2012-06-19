@@ -37,7 +37,7 @@ return [rootMessage.payload[0], panelExtractRequest] as Object[]]]></scripting:t
                 </scripting:script>
             </scripting:component>
             <cxf:jaxws-client operation="PanelDataExtractRequest" clientClass="org.mule.hackathon2012.panel.request.DataExtractService" port="DataExtractServicePort" enableMuleSoapHeaders="true" doc:name="SOAP"/>
-            <until-successful objectStore-ref="objectstore" maxRetries="2" secondsBetweenRetries="60" doc:name="Until Successful">
+            <until-successful objectStore-ref="objectstore" maxRetries="2" secondsBetweenRetries="60" deadLetterQueue-ref="deadletterCaseFlow" doc:name="Until Successful">
                 <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8882" path="panelrequest" doc:name="HTTP"/>
             </until-successful>
         </foreach>

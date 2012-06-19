@@ -1,0 +1,12 @@
+*~
+.classpath
+.settings/*
+*.project
+.muleide
+/*.iml
+/*.ipr
+/*.iws
+*.class
+target/*
+bin/*
+**/credentials.properties

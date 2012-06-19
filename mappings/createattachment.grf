@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph author="adrianhsieh" created="Mon Jun 18 21:19:57 PDT 2012" guiVersion="3.3.0.M2" id="1340086866280" licenseCode="Unlicensed" licenseType="Unknown" modified="Mon Jun 18 21:19:57 PDT 2012" modifiedBy="adrianhsieh" name="CreateAttachment" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __sourcePath="{}/object/errors" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="Metadata0" _parent_id="__parent_id" _position="0" _type="Input" id="Metadata1">
+<Record fieldDelimiter="|" name="Error" recordDelimiter="&#10;" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __sourcePath="{}/object/errors/fields" containerType="list" label="fields" name="fields" type="string"/>
+<Field __sourcePath="{}/object/errors/message" label="message" name="message" type="string"/>
+<Field __sourcePath="{}/object/errors/statusCode" label="statusCode" name="statusCode" type="string"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/outputMetadata" _dataStructure="OBJECT" _id="__id" _type="Output" id="21bc070f-8aeb-4c88-9672-febb94b9b5ad">
+<Record fieldDelimiter="|" label="outputMetadata" name="outputMetadata" recordDelimiter="&#10;" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/outputMetadata/ParentId" label="ParentId" name="ParentId" type="string"/>
+<Field __sourcePath="{}/outputMetadata/Name" label="Name" name="Name" type="string"/>
+<Field __sourcePath="{}/outputMetadata/Body" label="Body" name="Body" type="string"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="Metadata0">
+<Record fieldDelimiter="|" name="SaveResult" recordDelimiter="&#10;" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/object/id" label="id" name="id" type="string"/>
+<Field __sourcePath="{}/object/success" label="success" name="success" type="boolean"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+<Entry id="DictionaryEntry2" input="true" name="failedmsg" output="false" type="string"/>
+<Entry id="DictionaryEntry3" input="true" name="msgdata" output="false" type="string"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiHeight="0" guiName="JAVA Reader" guiWidth="0" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="id" trim="true" xpath="id"/>
+  <Mapping cloverField="success" trim="true" xpath="success"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<schema-object>
+  <typed-object-ref type-ref="com.sforce.soap.partner.SaveResult"/>
+  <typed-object type="com.sforce.soap.partner.StatusCode"/>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="com.sforce.soap.partner.Error">
+    <schema-collection array="true" name="fields">
+      <typed-object-ref type-ref="java.lang.String"/>
+    </schema-collection>
+    <typed-object-ref name="message" type-ref="java.lang.String"/>
+    <typed-object-ref name="statusCode" type-ref="com.sforce.soap.partner.StatusCode"/>
+  </typed-object>
+  <typed-object type="boolean"/>
+  <typed-object type="com.sforce.soap.partner.SaveResult">
+    <schema-collection array="true" name="errors">
+      <typed-object-ref type-ref="com.sforce.soap.partner.Error"/>
+    </schema-collection>
+    <typed-object-ref name="id" type-ref="java.lang.String"/>
+    <typed-object-ref name="success" type-ref="boolean"/>
+  </typed-object>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" fileURL="dict:outputPayload" guiHeight="0" guiName="MAP Writer" guiWidth="0" guiX="460" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<outputMetadata xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <ParentId>$0.ParentId</ParentId>
+  <Name>$0.Name</Name>
+  <Body>$0.Body</Body>
+</outputMetadata>]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+</Node>
+<Node enabled="enabled" guiHeight="0" guiName="object_to_outputMetadata" guiWidth="0" guiX="240" guiY="20" id="REFORMAT0" type="REFORMAT">
+<attr name="transform"><![CDATA[//#CTL2
+
+// Transforms input record into output record.
+function integer transform() {
+	$out.0.Name = dictionary.msgdata;
+	$out.0.Body = dictionary.failedmsg;
+	$out.0.ParentId = $in.0.id;
+$out.0.__id=$in.0.__id;
+		return ALL;
+}
+
+// Called during component initialization.
+// function boolean init() {}
+
+// Called during each graph run before the transform is executed. May be used to allocate and initialize resources
+// required by the transform. All resources allocated within this method should be released
+// by the postExecute() method.
+// function void preExecute() {}
+
+// Called only if transform() throws an exception.
+// function integer transformOnError(string errorMessage, string stackTrace) {}
+
+// Called during each graph run after the entire transform was executed. Should be used to free any resources
+// allocated within the preExecute() method.
+// function void postExecute() {}
+
+// Called to return a user-defined error message when an error occurs.
+// function string getMessage() {}
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="Metadata0" outPort="Port 0 (out)" toNode="REFORMAT0:0"/>
+<Edge debugMode="true" fromNode="REFORMAT0:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="21bc070f-8aeb-4c88-9672-febb94b9b5ad" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
+</Phase>
+</Graph>
