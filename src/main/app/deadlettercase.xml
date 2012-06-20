@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd 
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/4.0/mule-sfdc.xsd 
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd 
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd ">
     <sfdc:config name="SalesforceCaseSystem" username="adrian.hsieh@mulesource.stream" password="demo2mule!" securityToken="qJpemkzFoZQrHkYI5CBbJJcu" doc:name="Salesforce"/>
     <data-mapper:config name="defaultCaseValues" transformationGraphPath="defaultcasevalues.grf" doc:name="defaultCaseValues"/>
     <data-mapper:config name="CreateAttachment" transformationGraphPath="createattachment.grf" doc:name="CreateAttachment"/>
-    <flow name="deadletterCaseFlow" doc:name="deadletterCaseFlow" processingStrategy="queued-asynchronous">
-        <vm:inbound-endpoint exchange-pattern="one-way" path="deadletter.in" doc:name="VM">
-            <vm:transaction action="NONE"/>
-        </vm:inbound-endpoint>
+    <flow name="deadletterCaseFlow" doc:name="deadletterCaseFlow">
+        <composite-source>
+            <vm:inbound-endpoint exchange-pattern="request-response" path="deadletter.in" doc:name="VM">
+                <vm:transaction action="NONE"/>
+            </vm:inbound-endpoint>
+            <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="10080" path="testdlq" doc:name="TESTDLQ"/>
+        </composite-source>
         <message-properties-transformer overwrite="true" doc:name="Payload as variable">
             <add-message-property key="failedmsg" value="#[payload]"/>
-            <add-message-property key="casesubject" value="until successful max reached"/>
-            <add-message-property key="caseorigin" value="ESB"/>
-            <add-message-property key="casestatus" value="New"/>
         </message-properties-transformer>
-        <data-mapper:transform config-ref="defaultCaseValues" doc:name="Data-mapper">
-            <data-mapper:input-arguments>
-                <data-mapper:input-argument key="caseorigin">#[header:outbound:caseorigin]</data-mapper:input-argument>
-                <data-mapper:input-argument key="casesubject">#[header:outbound:casesubject]</data-mapper:input-argument>
-                <data-mapper:input-argument key="statuscase">#[header:outbound:casestatus]</data-mapper:input-argument>
-            </data-mapper:input-arguments>
-        </data-mapper:transform>
+        <scripting:transformer doc:name="Groovy">
+            <scripting:script engine="Groovy">
+                <scripting:text><![CDATA[def casemap = [Status:'New', Origin:'ESB', Subject:'Re-try Max reached']
+
+return casemap]]></scripting:text>
+            </scripting:script>
+        </scripting:transformer>
         <sfdc:create-single config-ref="SalesforceCaseSystem" type="Case" doc:name="Create Salesforce case">
             <sfdc:object ref="#[payload]"/>
         </sfdc:create-single>
-        <data-mapper:transform config-ref="CreateAttachment" doc:name="Data-mapper">
-            <data-mapper:input-arguments>
-                <data-mapper:input-argument key="failedmsg">#[header:outbound:failedmsg]</data-mapper:input-argument>
-                <data-mapper:input-argument key="msgdata">#[string:messagedata]</data-mapper:input-argument>
-            </data-mapper:input-arguments>
-        </data-mapper:transform>
+        <scripting:transformer doc:name="Groovy">
+            <scripting:script engine="Groovy">
+                <scripting:text><![CDATA[def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getOutboundProperty('failedmsg').decodeBase64()]
+
+return attachment]]></scripting:text>
+            </scripting:script>
+        </scripting:transformer>
         <sfdc:create-single config-ref="SalesforceCaseSystem" type="Attachment" doc:name="Create Case Attachment">
             <sfdc:object ref="#[payload]"/>
         </sfdc:create-single>
         <logger message="Created attachment for timed out message: #[payload]" level="WARN" doc:name="Log Outcome"/>
+        <scripting:transformer doc:name="Groovy">
+            <scripting:script engine="Groovy">
+                <scripting:text><![CDATA[return 'OK']]></scripting:text>
+            </scripting:script>
+        </scripting:transformer>
     </flow>
 </mule>
