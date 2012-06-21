@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="deadlettercase">
-    <global-element type="http://www.mulesoft.org/schema/mule/sfdc/config" name="Salesforce" entity-id="51fc119a-f01e-4acc-a24a-a222f8a8a018">
+    <global-element type="http://www.mulesoft.org/schema/mule/sfdc/config" name="Salesforce" entity-id="4e4e5c45-9dd6-4bf7-ac41-e9d3d21a8311">
         <properties>
             <property value="SalesforceCaseSystem" name="name"/>
             <property value="adrian.hsieh@mulesource.stream" name="username"/>
@@ -14,18 +14,6 @@
             <property name="objectStore-ref"/>
         </properties>
     </global-element>
-    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="defaultCaseValues" entity-id="7a15bed9-870d-46ea-9f0a-799f3ac9f496">
-        <properties>
-            <property value="defaultCaseValues" name="name"/>
-            <property value="defaultcasevalues.grf" name="transformationGraphPath"/>
-        </properties>
-    </global-element>
-    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="CreateAttachment" entity-id="f86eb631-ce3c-4140-a46c-5f899990f90f">
-        <properties>
-            <property value="CreateAttachment" name="name"/>
-            <property value="createattachment.grf" name="transformationGraphPath"/>
-        </properties>
-    </global-element>
     <flow SubFlow="false" name="deadletterCaseFlow">
         <properties>
             <property name="processingStrategy2"/>
@@ -35,9 +23,9 @@
             <property name="USE_TRANSACTION_ID"/>
             <property name="tracking:transaction-id"/>
         </properties>
-        <lane hadOnlyOneElement="false" entity-id="3d14d411-dcd4-443f-ad8a-a885ae675aa2">
-            <multi-source type="org.mule.tooling.ui.modules.core.endpoint.CompositeSource" name="Composite Source" entity-id="a8524887-3d93-41f4-ad29-7f2ec400b205">
-                <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/vm/endpoint" name="VM" entity-id="24245861-d5cc-431c-813d-c02ab3266de1">
+        <lane hadOnlyOneElement="false" entity-id="7cf0b5c6-900f-496f-b95d-0fe002859bef">
+            <multi-source type="org.mule.tooling.ui.modules.core.endpoint.CompositeSource" name="Composite Source" entity-id="e1bcb149-9399-489a-a83b-a96b9f987fc7">
+                <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/vm/endpoint" name="VM" entity-id="1e62d23d-1c24-48b8-b32f-02dbf0acdea0">
                     <properties>
                         <property value="one-way" name="exchange-pattern"/>
                         <property value="request-response" name="exchange-pattern"/>
@@ -59,7 +47,7 @@
                         </property-collection>
                     </properties>
                 </endpoint>
-                <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="TESTDLQ" entity-id="175c63fa-bf00-480a-bf25-6a6b420931d2">
+                <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="TESTDLQ" entity-id="df43cc5b-f621-4733-82f2-b07a8d997567">
                     <properties>
                         <property value="one-way" name="exchange-pattern"/>
                         <property value="request-response" name="exchange-pattern"/>
@@ -88,35 +76,34 @@
                     </properties>
                 </endpoint>
             </multi-source>
-            <pattern type="http://www.mulesoft.org/schema/mule/core/message-properties-transformer" name="Payload as variable" entity-id="12fc57ec-2e42-4a01-8eb4-1697bc64a39b">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="86514e3a-926b-48ea-ab58-3346498dda49">
                 <properties>
-                    <property value="" name="returnClass"/>
-                    <property value="false" name="ignoreBadInput"/>
-                    <property value="outbound" name="scope"/>
-                    <property value="true" name="overwrite"/>
-                    <property value="" name="encoding"/>
-                    <property value="" name="mimeType"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/add-message-property;0">
-                        <property value="#[payload]" name="value"/>
-                        <property value="failedmsg" name="key"/>
-                    </property-collection>
+                    <property value="------------------- IN ERROR FLOW #[payload]" name="message"/>
+                    <property value="" name="category"/>
+                    <property value="INFO" name="level"/>
                 </properties>
                 <description></description>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyTransformer" name="Groovy" entity-id="e58d1d31-8063-41b1-8c7a-adbcbdca6f28">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/variable-transformer" name="Variable" entity-id="f16bb84e-3058-4c71-9dc4-ef85c9769b36">
                 <properties>
-                    <property value="" name="returnClass"/>
-                    <property value="false" name="ignoreBadInput"/>
-                    <property value="def casemap = [Status:'New', Origin:'ESB', Subject:'Re-try Max reached']&#xA;&#xA;return casemap" name="text"/>
-                    <property value="" name="encoding"/>
-                    <property value="" name="mimeType"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;230940955">
+                    <property value="http://www.mulesoft.org/schema/mule/core/set-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="failedmsg" name="variableName"/>
+                    <property value="#[payload:]" name="value"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyTransformer" name="Groovy" entity-id="8fa5a02c-8ad9-4502-9631-27339e3f6cd4">
+                <properties>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mimeType"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
                         <property value="def casemap = [Status:'New', Origin:'ESB', Subject:'Re-try Max reached']&#xA;&#xA;return casemap" name="text"/>
+                        <property value="Groovy" name="engine"/>
                     </property-collection>
                 </properties>
-                <description></description>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" name="Create Salesforce case" entity-id="271628d9-9b5f-4db1-9791-9aa4cadedcc5">
+            <pattern type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" name="Create Salesforce case" entity-id="cc872a99-fe21-427e-8c5b-b35ec489ff65">
                 <properties>
                     <property value="SalesforceCaseSystem" name="config-ref"/>
                     <property value="http://www.mulesoft.org/schema/mule/sfdc/create-single" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
@@ -131,55 +118,60 @@
                     </property-collection>
                 </properties>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyTransformer" name="Groovy" entity-id="f717a758-2933-42aa-8098-2c3a1c03b9aa">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="fd20cbe3-4b53-4d37-8ea9-a660b5da689f">
+                <properties>
+                    <property value="Created case #[payload:]" name="message"/>
+                    <property value="" name="category"/>
+                    <property value="INFO" name="level"/>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyTransformer" name="Groovy" entity-id="e539f4f8-fae0-4ed9-8f55-e85109626460">
                 <properties>
                     <property value="" name="returnClass"/>
                     <property value="false" name="ignoreBadInput"/>
-                    <property value="def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getOutboundProperty('failedmsg').decodeBase64()]&#xA;&#xA;return attachment" name="text"/>
+                    <property value="def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getInvocationProperty('failedmsg')]&#xA;&#xA;return attachment" name="text"/>
                     <property value="" name="encoding"/>
                     <property value="" name="mimeType"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;1168668816">
-                        <property value="def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getOutboundProperty('failedmsg').decodeBase64()]&#xA;&#xA;return attachment" name="text"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;1711275421">
+                        <property value="def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getInvocationProperty('failedmsg')]&#xA;&#xA;return attachment" name="text"/>
                     </property-collection>
                 </properties>
                 <description></description>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" name="Create Case Attachment" entity-id="53bf1a2f-b447-4b28-8966-44f018682e3e">
+            <pattern type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" name="Create Case Attachment" entity-id="9aac2254-8b14-4bd7-b797-af1a5742cb2c">
                 <properties>
-                    <property value="" name=""/>
-                    <property value="#[payload]" name="ref"/>
-                    <property value="" name="username"/>
-                    <property value="" name="securityToken"/>
-                    <property value="http://www.mulesoft.org/schema/mule/sfdc/create-single" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
-                    <property value="Attachment" name="type"/>
-                    <property value="" name="password"/>
                     <property value="SalesforceCaseSystem" name="config-ref"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/create-single-object;1">
+                    <property value="http://www.mulesoft.org/schema/mule/sfdc/create-single" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="SalesforceCaseSystem" name="config-ref"/>
+                    <property value="Attachment" name="type"/>
+                    <property name=""/>
+                    <property name="username"/>
+                    <property name="password"/>
+                    <property name="securityToken"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/create-single-object;0">
                         <property value="#[payload]" name="ref"/>
                     </property-collection>
                 </properties>
-                <description></description>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Log Outcome" entity-id="ffbbd213-df3e-4e08-bfac-a7f4f69e1d90">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Log Outcome" entity-id="5c8826a4-3927-431f-af4e-da02a5a68bf7">
                 <properties>
                     <property value="Created attachment for timed out message: #[payload]" name="message"/>
-                    <property value="" name="category"/>
                     <property value="WARN" name="level"/>
+                    <property name="category"/>
                 </properties>
-                <description></description>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyTransformer" name="Groovy" entity-id="59108d3f-30a4-4a57-b6d1-fa4ecb0dae18">
+            <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyTransformer" name="Groovy" entity-id="9d5ee8a0-d698-4bb2-b863-34a20d1b30a4">
                 <properties>
-                    <property value="" name="returnClass"/>
-                    <property value="false" name="ignoreBadInput"/>
-                    <property value="return 'OK'" name="text"/>
-                    <property value="" name="encoding"/>
-                    <property value="" name="mimeType"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;2092803698">
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mimeType"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
                         <property value="return 'OK'" name="text"/>
+                        <property value="Groovy" name="engine"/>
                     </property-collection>
                 </properties>
-                <description></description>
             </pattern>
         </lane>
     </flow>

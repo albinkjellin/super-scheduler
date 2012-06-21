@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="Hackathon3.3">
-    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="ScheduleRequest2PanelRequest" entity-id="9cd940fb-c833-4c82-a41c-4f0547068562">
+    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="ScheduleRequest2PanelRequest" entity-id="e250e748-74b0-4ec1-9e31-753543277957">
         <properties>
             <property value="ScheduleRequest2PanelRequest" name="name"/>
             <property value="schedulerequest2panelrequest.grf" name="transformationGraphPath"/>
         </properties>
     </global-element>
-    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="RequestData2PanelDataExtractRequest" entity-id="54875427-4d25-4b5a-af72-bac5b58b3e8f">
+    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="RequestData2PanelDataExtractRequest" entity-id="d185aad4-53d4-4fdd-8d84-f88b75e664f7">
         <properties>
             <property value="RequestData2PanelDataExtractRequest" name="name"/>
             <property value="requestdata2paneldataextractrequest.grf" name="transformationGraphPath"/>
         </properties>
     </global-element>
-    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="Schedule2Panel" entity-id="2e9bb3ae-1fa0-4dd3-b5ff-183e8b141a66">
+    <global-element type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" name="Schedule2Panel" entity-id="680f8728-6d03-4460-b9e2-c6d6bea57851">
         <properties>
             <property value="Schedule2Panel" name="name"/>
             <property value="schedule2panel.grf" name="transformationGraphPath"/>
         </properties>
     </global-element>
-    <global-element type="http://www.springframework.org/schema/beans/bean" name="Bean" entity-id="3af9531d-2210-490f-98bd-4e8f32659703">
+    <global-element type="http://www.springframework.org/schema/beans/bean" name="Bean" entity-id="4f2cb1fa-bb31-4236-b2e5-49a0eeb880e3">
         <properties>
             <property value="objectstore" name="id"/>
             <property value="objectstore" name="name"/>
@@ -38,6 +38,27 @@
             <property name="factory-bean"/>
         </properties>
     </global-element>
+    <global-element type="http://www.mulesoft.org/schema/mule/ee/core/object-store-caching-strategy" name="Caching Strategy" entity-id="a3aca7f2-0742-4315-8203-8c769b3cfe33">
+        <properties>
+            <property value="Caching_Strategy" name="name"/>
+            <property name="eventKeyLabel"/>
+            <property name="dont_use"/>
+            <property name="key_expression"/>
+            <property value="#[payload[1].interfaceId]" name="keyGenerationExpression"/>
+            <property name="key_generator"/>
+            <property name="keyGenerator-ref"/>
+            <property name="responseGenerator-ref"/>
+            <property name="consumableFilter-ref"/>
+            <property name="radioGroupLabel"/>
+            <property name="EVENT_STRATEGY_TYPE"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/core/in-memory-store;0">
+                <property value="pathlookupstore" name="name"/>
+                <property value="100000" name="entryTTL"/>
+                <property value="100000" name="expirationInterval"/>
+                <property value="100" name="maxEntries"/>
+            </property-collection>
+        </properties>
+    </global-element>
     <flow SubFlow="false" name="Hackathon3.3Flow1">
         <properties>
             <property name="processingStrategy2"/>
@@ -47,8 +68,8 @@
             <property name="USE_TRANSACTION_ID"/>
             <property name="tracking:transaction-id"/>
         </properties>
-        <lane hadOnlyOneElement="false" entity-id="63d68d5c-3831-4d90-9c7a-43aa59eec722">
-            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="e14797b9-5de4-4783-995c-941127f2148a">
+        <lane hadOnlyOneElement="false" entity-id="f4350e74-6ed6-49f6-92a3-72ecf8d10077">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="f35f52ff-4c5e-4f9d-ab42-0a92e2007bb5">
                 <properties>
                     <property value="one-way" name="exchange-pattern"/>
                     <property value="request-response" name="exchange-pattern"/>
@@ -76,7 +97,7 @@
                     <property name="keep-alive"/>
                 </properties>
             </endpoint>
-            <pattern type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" name="SOAP" entity-id="42656e65-578f-4a43-a600-0bada699444c">
+            <pattern type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" name="SOAP" entity-id="93f22457-20b6-4f6c-a60d-1631924ad2e9">
                 <properties>
                     <property name="configuration-ref"/>
                     <property value="http://www.mulesoft.org/schema/mule/cxf/jaxws-service" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
@@ -94,16 +115,16 @@
                     <property-collection name="@http://www.mulesoft.org/schema/mule/cxf/jaxb-databinding;0"/>
                 </properties>
             </pattern>
-            <scope type="http://www.mulesoft.org/schema/mule/core/foreach" name="Foreach" entity-id="954ed9a5-310b-4ead-84a0-d89bdff4f380">
+            <scope type="http://www.mulesoft.org/schema/mule/core/foreach" name="Foreach" entity-id="c1eaabad-d896-4e33-b532-9ffb84c8bbec">
                 <properties>
                     <property value="payload[1].RequestDataList.RequestData" name="collection"/>
                     <property name="counterVariableName"/>
                     <property name="batchSize"/>
                     <property name="rootMessageVariableName"/>
                 </properties>
-                <compartment entity-id="9a6bb1ce-08c6-4bf3-abe4-9c42dff32eaa">
-                    <lane hadOnlyOneElement="false" entity-id="648c6d7d-1aef-4909-a87d-95c0ae6ead9f">
-                        <pattern type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" name="Data-mapper" entity-id="e5b02098-270b-47e1-ac64-fdcaf968aa82">
+                <compartment entity-id="1dd37195-af1c-42d6-a534-9e5411f8dbf0">
+                    <lane hadOnlyOneElement="false" entity-id="9c0f7d08-afa8-48ae-b9b5-2defd3d6ce0d">
+                        <pattern type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" name="Data-mapper" entity-id="f846fda5-b144-4673-b0bc-04b9a1e00abe">
                             <properties>
 <property value="Schedule2Panel" name="config-ref"/>
 <property value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
@@ -111,22 +132,73 @@
 <property name="input-ref"/>
                             </properties>
                         </pattern>
-                        <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" name="Groovy" entity-id="c82976be-5987-4c97-af35-a1bcae5dabe6">
+                        <pattern type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" name="Groovy" entity-id="d0e2116e-9fca-49cc-b303-8ba094bb5ff3">
                             <properties>
-<property value="" name="ref"/>
-<property value="import org.mule.hackathon2012.panel.request.PanelDataExtractRequest;&#xA;import org.mule.hackathon2012.panel.request.PanelDataExtractRequest.RequestDataList;&#xA;import org.mule.hackathon2012.panel.request.RequestData;&#xA;&#xA;def panelExtractRequest = new PanelDataExtractRequest()&#xA;def dummyList = new PanelDataExtractRequest.RequestDataList()&#xA;dummyList.getRequestData().add(payload)&#xA;panelExtractRequest.setRequestDataList(dummyList)&#xA;panelExtractRequest.setInterfaceId(rootMessage.payload[1].interfaceId)&#xA;&#xA;return [rootMessage.payload[0], panelExtractRequest] as Object[]" name="text"/>
-<property-collection name="@http://www.mulesoft.org/schema/mule/core/refInterceptorStackType;1645275455">
-    <property value="" name="ref"/>
-    <property value="true" name="isProcessed$$$$"/>
-</property-collection>
-<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;1103163658">
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
     <property value="import org.mule.hackathon2012.panel.request.PanelDataExtractRequest;&#xA;import org.mule.hackathon2012.panel.request.PanelDataExtractRequest.RequestDataList;&#xA;import org.mule.hackathon2012.panel.request.RequestData;&#xA;&#xA;def panelExtractRequest = new PanelDataExtractRequest()&#xA;def dummyList = new PanelDataExtractRequest.RequestDataList()&#xA;dummyList.getRequestData().add(payload)&#xA;panelExtractRequest.setRequestDataList(dummyList)&#xA;panelExtractRequest.setInterfaceId(rootMessage.payload[1].interfaceId)&#xA;&#xA;return [rootMessage.payload[0], panelExtractRequest] as Object[]" name="text"/>
-    <property value="true" name="isProcessed$$$$"/>
+    <property value="Groovy" name="engine"/>
+</property-collection>
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
+    <property value="import org.mule.hackathon2012.panel.request.PanelDataExtractRequest;&#xA;import org.mule.hackathon2012.panel.request.PanelDataExtractRequest.RequestDataList;&#xA;import org.mule.hackathon2012.panel.request.RequestData;&#xA;&#xA;def panelExtractRequest = new PanelDataExtractRequest()&#xA;def dummyList = new PanelDataExtractRequest.RequestDataList()&#xA;dummyList.getRequestData().add(payload)&#xA;panelExtractRequest.setRequestDataList(dummyList)&#xA;panelExtractRequest.setInterfaceId(rootMessage.payload[1].interfaceId)&#xA;&#xA;return [rootMessage.payload[0], panelExtractRequest] as Object[]" name="text"/>
+    <property value="Groovy" name="engine"/>
 </property-collection>
                             </properties>
-                            <description></description>
                         </pattern>
-                        <pattern type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" name="SOAP" entity-id="ed43909a-8dda-489f-a999-e5fed9d43837">
+                        <scope type="http://www.mulesoft.org/schema/mule/core/enricher" name="Message Enricher" entity-id="9d236455-868f-493c-a24b-19623ad6e486">
+                            <properties>
+<property name="source"/>
+<property name="target"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/core/enrich;0">
+    <property value="#[payload:]" name="source"/>
+    <property value="#[variable:eptable]" name="target"/>
+</property-collection>
+                            </properties>
+                            <compartment entity-id="5f1944ae-a176-4ad8-be1c-83ea7c14cbeb">
+<lane hadOnlyOneElement="false" entity-id="5fcebd77-5877-4ddd-96ff-70e2415a3554">
+    <scope type="http://www.mulesoft.org/schema/mule/ee/core/cache" name="Cache" entity-id="cdd333e2-6768-430e-86fe-a1258bf67dda">
+        <properties>
+            <property value="Caching_Strategy" name="cachingStrategy-ref"/>
+            <property name="filterLabel"/>
+            <property name="dont_use"/>
+            <property name="use_an_expression"/>
+            <property name="filterExpression"/>
+            <property name="use_a_filter"/>
+            <property name="filter-ref"/>
+        </properties>
+        <compartment entity-id="07074a25-802a-4b2f-909d-463b0136e4ac">
+            <lane hadOnlyOneElement="false" entity-id="743b4d99-8b80-4916-815e-999d37ba3983">
+                <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/vm/endpoint" name="VM" entity-id="1f3ce84f-bd59-41ae-8c74-d8df889fe85e">
+                    <properties>
+                        <property value="one-way" name="exchange-pattern"/>
+                        <property value="request-response" name="exchange-pattern"/>
+                        <property value="endpointlookup" name="path"/>
+                        <property name="businessEventsLabel"/>
+                        <property name="tracking:enable-default-events"/>
+                        <property name="address"/>
+                        <property name="responseTimeout"/>
+                        <property name="encoding"/>
+                        <property name="disableTransportTransformer"/>
+                        <property name="mimeType"/>
+                        <property name="connector-ref"/>
+                        <property name="ref"/>
+                        <property name="transformer-refs"/>
+                        <property name="responseTransformer-refs"/>
+                    </properties>
+                </endpoint>
+            </lane>
+        </compartment>
+    </scope>
+</lane>
+                            </compartment>
+                        </scope>
+                        <pattern type="http://www.mulesoft.org/schema/mule/core/variable-transformer" name="Variable" entity-id="d9c8f0f3-2e2e-4040-8dea-0e94d1354b5f">
+                            <properties>
+<property value="http://www.mulesoft.org/schema/mule/core/set-variable" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+<property value="eppath" name="variableName"/>
+<property value="#[ x=payload[1].interfaceId; eptable[x] !=null ? eptable[x] : 'fail']" name="value"/>
+                            </properties>
+                        </pattern>
+                        <pattern type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" name="SOAP" entity-id="c6d52c14-0b17-43ec-88e4-6208618778ba">
                             <properties>
 <property name="configuration-ref"/>
 <property value="http://www.mulesoft.org/schema/mule/cxf/jaxws-client" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
@@ -140,30 +212,30 @@
 <property value="true" name="enableMuleSoapHeaders"/>
                             </properties>
                         </pattern>
-                        <scope type="http://www.mulesoft.org/schema/mule/core/until-successful" name="Until Successful" entity-id="50d82f49-cd21-48d8-b220-a702f7ba7d21">
+                        <scope type="http://www.mulesoft.org/schema/mule/core/until-successful" name="Until Successful" entity-id="c9686ffe-ff50-4969-a397-2b56176081fd">
                             <properties>
 <property value="objectstore" name="objectStore-ref"/>
 <property value="2" name="maxRetries"/>
-<property value="60" name="secondsBetweenRetries"/>
+<property value="2" name="secondsBetweenRetries"/>
 <property name="failureExpression"/>
 <property name="ackExpression"/>
-<property name="deadLetterQueue-ref"/>
+<property value="deadletterCaseFlow" name="deadLetterQueue-ref"/>
                             </properties>
-                            <compartment entity-id="f90eed99-cd87-4db3-944a-8cdc1776db17">
-<lane hadOnlyOneElement="false" entity-id="89d454b4-f2d2-405f-8e1c-d5d6832a2c49">
-    <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="3147c31e-7eb0-4345-9b7a-4a7edba42978">
+                            <compartment entity-id="9efd130d-c493-45b3-a93d-d20e92b7b1a5">
+<lane hadOnlyOneElement="false" entity-id="d981967e-de76-4edc-b4c7-cb95bd40ec09">
+    <endpoint message-exchange-pattern="OneWay" direction="Outbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="5287a14b-7aa0-4b15-8439-9d4dee51ebf9">
         <properties>
             <property value="one-way" name="exchange-pattern"/>
             <property value="request-response" name="exchange-pattern"/>
             <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
             <property name="httpLabel"/>
-            <property value="localhost" name="host"/>
-            <property value="8882" name="port"/>
-            <property value="panelrequest" name="path"/>
+            <property name="host"/>
+            <property name="port"/>
+            <property name="path"/>
             <property name="method"/>
             <property name="businessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="address"/>
+            <property value="http://#[variable:eppath]" name="address"/>
             <property name="encoding"/>
             <property name="disableTransportTransformer"/>
             <property name="mimeType"/>
@@ -189,13 +261,15 @@
     </flow>
     <flow SubFlow="false" name="SimulateEndpoint">
         <properties>
-            <property value="" name="processingStrategy2"/>
-            <property value="" name="bussinessEventsLabel"/>
-            <property value="false" name="tracking:enable-default-events"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="USE_TRANSACTION_ID"/>
+            <property name="tracking:transaction-id"/>
         </properties>
-        <description></description>
-        <lane hadOnlyOneElement="false" entity-id="18ad8155-f703-49a9-9c53-a047fb009a97">
-            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="fa68b9a8-9a51-403b-999f-f9801324a38c">
+        <lane hadOnlyOneElement="false" entity-id="83e1c774-8c08-4294-85df-17bd1b7ff7b8">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="924a3bdd-793d-4f5e-85d5-e6787d73df83">
                 <properties>
                     <property value="one-way" name="exchange-pattern"/>
                     <property value="request-response" name="exchange-pattern"/>
@@ -223,7 +297,7 @@
                     <property name="keep-alive"/>
                 </properties>
             </endpoint>
-            <pattern type="http://www.mulesoft.org/schema/mule/core/object-to-string-transformer" name="Object to String" entity-id="c43eeec2-4cda-4e3a-8262-1541587f93cf">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/object-to-string-transformer" name="Object to String" entity-id="d62c0770-ccab-4a92-8432-907be05cb373">
                 <properties>
                     <property name="returnClass"/>
                     <property name="ignoreBadInput"/>
@@ -231,21 +305,61 @@
                     <property name="mimeType"/>
                 </properties>
             </pattern>
-            <unknown entity-id="4d38c1e7-c237-42c1-b876-c12a6824e36e">
+            <unknown entity-id="8aa0c749-a8b0-465c-a42c-75af92589717">
                 <content>&lt;mulexml:xml-prettyprinter-transformer xmlns:mulexml=&quot;http://www.mulesoft.org/schema/mule/xml&quot;/&gt;</content>
             </unknown>
-            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="c536aa9d-53be-42cb-aaa9-3946c262118e">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="ca010816-d788-4c81-bd2e-14df489f7361">
                 <properties>
                     <property value="************** THIS FINALLY WORKED ************************" name="message"/>
                     <property value="INFO" name="level"/>
                     <property name="category"/>
                 </properties>
             </pattern>
-            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="cf7deddc-f2ca-4aea-81fb-5fb21d34366c">
+            <pattern type="http://www.mulesoft.org/schema/mule/core/logger" name="Logger" entity-id="4ced2f1a-802b-43aa-beb5-cb34f48c6962">
                 <properties>
                     <property value="#[payload]" name="message"/>
                     <property value="INFO" name="level"/>
                     <property name="category"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="Hackathon3.3Flow2">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="USE_TRANSACTION_ID"/>
+            <property name="tracking:transaction-id"/>
+        </properties>
+        <lane hadOnlyOneElement="false" entity-id="d211906a-fa6b-453a-8dbf-f1d4278815aa">
+            <endpoint message-exchange-pattern="OneWay" direction="Inbound" type="http://www.mulesoft.org/schema/mule/vm/endpoint" name="VM" entity-id="6baddf93-5b07-44ed-a30a-594b60b9f4c0">
+                <properties>
+                    <property value="one-way" name="exchange-pattern"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property value="endpointlookup" name="path"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="address"/>
+                    <property name="responseTimeout"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="connector-ref"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="responseTransformer-refs"/>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/core/expression-transformer" name="Expression" entity-id="c1fa86b4-047d-4d78-b423-dfbc45d64784">
+                <properties>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mimeType"/>
+                    <property value="#[return ['ER_GL_INT_002':'localhost:8882/panelrequest']]" name="expression"/>
+                    <property name="returnSourceIfNull"/>
                 </properties>
             </pattern>
         </lane>
