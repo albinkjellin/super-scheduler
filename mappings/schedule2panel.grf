@@ -274,17 +274,6 @@
 
 // Transforms input record into output record.
 function integer transform() {
-	$out.0.fractionalSecond4 = $in.0.fractionalSecond4;
-	$out.0.millisecond4 = $in.0.millisecond4;
-	$out.0.year4 = $in.0.year4;
-	$out.0.timezone4 = $in.0.timezone4;
-	$out.0.second4 = $in.0.second4;
-	$out.0.month4 = $in.0.month4;
-	$out.0.minute4 = $in.0.minute4;
-	$out.0.hour4 = $in.0.hour4;
-	$out.0.day4 = $in.0.day4;
-	$out.0.transactionDetailType = $in.0.transactionDetail;
-	$out.0.panelLocale = $in.0.locale;
 	$out.0.__id = $in.0.__id;
 	$out.0.accountingItemId = $in.0.accountingItemId;
 	$out.0.transactionType = $in.0.transactionType;
