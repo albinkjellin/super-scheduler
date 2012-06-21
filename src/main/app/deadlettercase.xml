@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
-http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd 
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/4.0/mule-sfdc.xsd 
 http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd 
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd ">
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd ">
     <sfdc:config name="SalesforceCaseSystem" username="adrian.hsieh@mulesource.stream" password="demo2mule!" securityToken="qJpemkzFoZQrHkYI5CBbJJcu" doc:name="Salesforce"/>
-    <data-mapper:config name="defaultCaseValues" transformationGraphPath="defaultcasevalues.grf" doc:name="defaultCaseValues"/>
-    <data-mapper:config name="CreateAttachment" transformationGraphPath="createattachment.grf" doc:name="CreateAttachment"/>
     <flow name="deadletterCaseFlow" doc:name="deadletterCaseFlow">
         <composite-source>
             <vm:inbound-endpoint exchange-pattern="request-response" path="deadletter.in" doc:name="VM">
@@ -18,9 +16,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
             </vm:inbound-endpoint>
             <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="10080" path="testdlq" doc:name="TESTDLQ"/>
         </composite-source>
-        <message-properties-transformer overwrite="true" doc:name="Payload as variable">
-            <add-message-property key="failedmsg" value="#[payload]"/>
-        </message-properties-transformer>
+        <logger message="------------------- IN ERROR FLOW #[payload]" level="INFO" doc:name="Logger"/>
+        <set-variable variableName="failedmsg" value="#[payload:]" doc:name="Variable"/>
         <scripting:transformer doc:name="Groovy">
             <scripting:script engine="Groovy">
                 <scripting:text><![CDATA[def casemap = [Status:'New', Origin:'ESB', Subject:'Re-try Max reached']
@@ -31,9 +28,10 @@ return casemap]]></scripting:text>
         <sfdc:create-single config-ref="SalesforceCaseSystem" type="Case" doc:name="Create Salesforce case">
             <sfdc:object ref="#[payload]"/>
         </sfdc:create-single>
+        <logger message="Created case #[payload:]" level="INFO" doc:name="Logger"/>
         <scripting:transformer doc:name="Groovy">
             <scripting:script engine="Groovy">
-                <scripting:text><![CDATA[def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getOutboundProperty('failedmsg').decodeBase64()]
+                <scripting:text><![CDATA[def attachment = [ParentId : payload.getId(), Name : 'Raw Message', Body : message.getInvocationProperty('failedmsg')]
 
 return attachment]]></scripting:text>
             </scripting:script>

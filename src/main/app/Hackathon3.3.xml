@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="EE-3.3.0" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd 
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd 
@@ -14,6 +16,9 @@ http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/
     <spring:beans>
         <spring:bean id="objectstore" name="objectstore" class="org.mule.util.store.SimpleMemoryObjectStore"/>
     </spring:beans>
+    <ee:object-store-caching-strategy name="Caching_Strategy" keyGenerationExpression="#[payload[1].interfaceId]" doc:name="Caching Strategy">
+        <in-memory-store name="pathlookupstore" maxEntries="100" entryTTL="100000" expirationInterval="100000"/>
+    </ee:object-store-caching-strategy>
     <flow name="Hackathon3.3Flow1" doc:name="Hackathon3.3Flow1">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8881" path="schedule" doc:name="HTTP"/>
         <cxf:jaxws-service serviceClass="org.mule.hackathon2012.scheduler.ISchedulerRequest" validationEnabled="true" doc:name="SOAP">
@@ -36,9 +41,16 @@ panelExtractRequest.setInterfaceId(rootMessage.payload[1].interfaceId)
 return [rootMessage.payload[0], panelExtractRequest] as Object[]]]></scripting:text>
                 </scripting:script>
             </scripting:component>
+            <enricher doc:name="Message Enricher">
+                <ee:cache cachingStrategy-ref="Caching_Strategy" doc:name="Cache">
+                    <vm:outbound-endpoint exchange-pattern="request-response" path="endpointlookup" doc:name="VM"/>
+                </ee:cache>
+                <enrich source="#[payload:]" target="#[variable:eptable]"/>
+            </enricher>
+            <set-variable variableName="eppath" value="#[ x=payload[1].interfaceId; eptable[x] !=null ? eptable[x] : 'fail']" doc:name="Variable"/>
             <cxf:jaxws-client operation="PanelDataExtractRequest" clientClass="org.mule.hackathon2012.panel.request.DataExtractService" port="DataExtractServicePort" enableMuleSoapHeaders="true" doc:name="SOAP"/>
-            <until-successful objectStore-ref="objectstore" maxRetries="2" secondsBetweenRetries="60" deadLetterQueue-ref="deadletterCaseFlow" doc:name="Until Successful">
-                <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8882" path="panelrequest" doc:name="HTTP"/>
+            <until-successful objectStore-ref="objectstore" maxRetries="2" secondsBetweenRetries="2" deadLetterQueue-ref="deadletterCaseFlow" doc:name="Until Successful">
+                <http:outbound-endpoint exchange-pattern="request-response" address="http://#[variable:eppath]" doc:name="HTTP"/>
             </until-successful>
         </foreach>
     </flow>
@@ -48,5 +60,9 @@ return [rootMessage.payload[0], panelExtractRequest] as Object[]]]></scripting:t
         <mulexml:xml-prettyprinter-transformer></mulexml:xml-prettyprinter-transformer>
         <logger message="************** THIS FINALLY WORKED ************************" level="INFO" doc:name="Logger"/>
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="Hackathon3.3Flow2" doc:name="Hackathon3.3Flow2">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="endpointlookup" doc:name="VM"/>
+        <expression-transformer expression="#[return ['ER_GL_INT_002':'localhost:8882/panelrequest']]" doc:name="Expression"/>
     </flow>
 </mule>
