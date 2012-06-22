@@ -61,7 +61,7 @@ return [rootMessage.payload[0], panelExtractRequest] as Object[]]]></scripting:t
         <logger message="************** THIS FINALLY WORKED ************************" level="INFO" doc:name="Logger"/>
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
     </flow>
-    <flow name="Hackathon3.3Flow2" doc:name="Hackathon3.3Flow2">
+    <flow name="EndpointLookupFlow" doc:name="EndpointLookupFlow">
         <vm:inbound-endpoint exchange-pattern="request-response" path="endpointlookup" doc:name="VM"/>
         <expression-transformer expression="#[return ['ER_GL_INT_002':'localhost:8882/panelrequest']]" doc:name="Expression"/>
     </flow>
