@@ -22,7 +22,7 @@ import javax.xml.ws.WebServiceFeature;
 
 
 @WebServiceClient(name = "ISchedulerRequestService", 
-                  wsdlLocation = "file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl",
+                  wsdlLocation = "file:src/main/resources/Scheduer-Request.wsdl",
                   targetNamespace = "http://researchnow.com/schema/panel/v1") 
 public class ISchedulerRequestService extends Service {
 
@@ -32,7 +32,7 @@ public class ISchedulerRequestService extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl");
+            url = new URL("file:src/main/resources/Scheduer-Request.wsdl");
         } catch (MalformedURLException e) {
             System.err.println("Can not initialize the default wsdl from file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl");
             // e.printStackTrace();

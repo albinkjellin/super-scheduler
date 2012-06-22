@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project name="Hackathon2012" resourceRoot="" soapui-version="3.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ISchedulerRequestServiceSoapBinding" type="wsdl" bindingName="{http://researchnow.com/schema/panel/v1}ISchedulerRequestServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl"><con:part><con:url>file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ISchedulerRequestService" targetNamespace="http://researchnow.com/schema/panel/v1" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:icc="http://researchnow.com/schema/icc" xmlns:tns="http://researchnow.com/schema/panel/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<con:soapui-project name="Hackathon2012" resourceRoot="" soapui-version="4.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ISchedulerRequestServiceSoapBinding" type="wsdl" bindingName="{http://researchnow.com/schema/panel/v1}ISchedulerRequestServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl"><con:part><con:url>file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/Scheduer-Request.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ISchedulerRequestService" targetNamespace="http://researchnow.com/schema/panel/v1" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:icc="http://researchnow.com/schema/icc" xmlns:tns="http://researchnow.com/schema/panel/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:types>
     <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://researchnow.com/schema/panel/v1" xmlns="http://researchnow.com/schema/panel/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:complexType name="SchedulerExtractRequest">
@@ -99,20 +99,6 @@
          <v1:RequestDataList>
             <!--1 or more repetitions:-->
             <RequestData>
-               <!--Optional:-->
-               <transactionType>?</transactionType>
-               <!--Optional:-->
-               <transactionDetail>?</transactionDetail>
-               <panelId>EROP1</panelId>
-               <!--Optional:-->
-               <locale>?</locale>
-               <!--Optional:-->
-               <accountingItemId>?</accountingItemId>
-               <startDate>2009-02-12T00:00:00-06:00</startDate>
-               <endDate>2009-02-12T00:00:00-06:00</endDate>
-               <reportDate>2009-02-12</reportDate>
-            </RequestData>
-<RequestData>
                <!--Optional:-->
                <transactionType>?</transactionType>
                <!--Optional:-->

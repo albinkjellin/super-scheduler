@@ -22,7 +22,7 @@ import javax.xml.ws.WebServiceFeature;
 
 
 @WebServiceClient(name = "DataExtractService", 
-                  wsdlLocation = "file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/DataExtractService.wsdl",
+                  wsdlLocation = "file:src/main/resources/DataExtractService.wsdl",
                   targetNamespace = "http://researchnow.com/schema/panel/finance/extract/v1") 
 public class DataExtractService extends Service {
 
@@ -32,7 +32,7 @@ public class DataExtractService extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/DataExtractService.wsdl");
+            url = new URL("file:src/main/resources/DataExtractService.wsdl");
         } catch (MalformedURLException e) {
             System.err.println("Can not initialize the default wsdl from file:/Users/albinkjellin/studio/hackathon/hackathon3.3/src/main/resources/DataExtractService.wsdl");
             // e.printStackTrace();
